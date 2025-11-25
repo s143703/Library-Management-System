@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LMShelf | Catalog</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body data-bs-theme="dark">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="LMShelf.svg" alt="logo" width="120" class="me-2">
+        LMShelf
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav2">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="book-details.html">Book Details</a></li>
+            <li class="nav-item"><a class="nav-link" href="reports.html">Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="policies.html">Policies</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="account.html">My Account</a></li>
+        </ul>
+
+        <div class="ms-3">
+          <button id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button">🌓</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4">
+
+    <div class="row">
+      <div class="col-md-8">
+        <h2>Catalog</h2>
+        <p class="text-muted">Browse available books. Use the form to add a demo book to the catalog.</p>
+
+        <!-- Search form (sends to httpbin and also calls JS search) -->
+        <form id="searchForm" class="row g-2 mb-3" action="https://httpbin.org/get" method="get" onsubmit="searchBooks(event)">
+          <div class="col-8">
+            <input id="searchInput" name="q" class="form-control bg-secondary text-light border-0" placeholder="Search by title or author">
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-outline-warning" type="submit">Search</button>
+          </div>
+        </form>
+
+        <!-- Table: empty body filled by renderCatalog() -->
+        <div class="table-responsive">
+          <table id="catalogTable" class="table table-dark table-striped align-middle">
+            <thead>
+              <tr>
+                <th>Cover</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right column: add book form -->
+      <div class="col-md-4">
+        <h4>Add Book (demo)</h4>
+        <form id="addBookForm" onsubmit="addBook(event)">
+          <div class="mb-2">
+            <label class="form-label">Title</label>
+            <input id="bookTitle" required class="form-control bg-secondary text-light" />
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Author</label>
+            <input id="bookAuthor" required class="form-control bg-secondary text-light" />
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Category</label>
+            <select id="bookCategory" class="form-select bg-secondary text-light">
+              <option>Fiction</option>
+              <option>Textbooks</option>
+              <option>Reference</option>
+              <option>Journals</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Cover image filename</label>
+            <input id="bookCover" class="form-control bg-secondary text-light" placeholder="e.g. Book Cover.png">
+            <div class="form-text">Place image file in project root or leave empty for placeholder.</div>
+          </div>
+          <button class="btn btn-warning w-100" type="submit">Add Book</button>
+        </form>
+
+        <hr class="my-3">
+
+        
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-black text-muted py-4 border-top">
+    <div class="container">
+      <div class="row gy-3">
+        <div class="col-12 col-md-4">
+          <h6 class="text-warning">LMShelf Library</h6>
+          <p class="text-light small mb-0">Empowering readers through technology. Streamlining library management for everyone.</p>
+        </div>
+
+        <div class="col-6 col-md-4">
+          <h6 class="text-warning">Quick Links</h6>
+          <ul class="list-unstyled small">
+            <li><a class="link-info text-decoration-none" href="catalog.html">Catalog</a></li>
+            <li><a class="link-info text-decoration-none" href="reports.html">Reports</a></li>
+            <li><a class="link-info text-decoration-none" href="policies.html">Policies</a></li>
+          </ul>
+        </div>
+
+        <div class="col-6 col-md-4">
+          <h6 class="text-warning">Contact</h6>
+          <p class="text-light small mb-0">Email: <a class="link-info" href="mailto:library@lmshelf.edu">library@lmshelf.edu</a></p>
+        </div>
+      </div>
+      
+      <div class="text-center">
+        <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' });"  id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button">Back to Top</button> <!-- Simple js code to scroll to the top -->
+      </div>
+
+      <div class="text-light text-center small mt-3">© 2025 LMShelf. All rights reserved.</div>
+    </div>
+  </footer>
+
+  
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Catalog JS: constructors, arrays, dynamic-->
+  <script>
+    /**
+     * Book constructor.
+     * @param (number) id - unique id
+     * @param (string) title
+     * @param (string) author
+     * @param (string) category
+     * @param (string) cover - filename or URL
+     * @param (string) status - available / on_loan / reserved
+     * @param (string) subjects - N/A
+     */
+    function Book(id, title, author, category, cover, status, subjects) {
+      this.id = id;
+      this.title = title;
+      this.author = author;
+      this.category = category;
+      this.cover = cover || 'Book Cover.png';
+      this.status = status || 'Available';
+      this.subjects = subjects || "N/A";
+    }
+
+
+    // Sample data initialization (array of Book objects)
+    let books = [
+      new Book(1, 'Introduction to Algorithms', 'Cormen et al.', 'Textbooks', 'Introduction to Algorithms.png', 'Available', 'Algorithms, Computer Science'),
+      new Book(2, 'Modern Web Design', 'Jane Doe', 'Textbooks', 'Modern Web Design.png', 'On Loan', 'Web Development, Computer Science'),
+      new Book(3, 'The Great Indian Novel', 'John Writer', 'Fiction', 'The Great indian Novel.png', 'Available', 'Fiction, Literature'),
+      new Book(4, 'Harry Potter: The Cursed Child', 'JK.Rowling', 'Fiction', 'Harry Potter Cursed Book.png', 'Available', 'Fantasy, Fiction'),
+      new Book(5, 'The Great Gatsby', 'Gatsby', 'Journals', 'the-great-gatsby-Book.png', 'Available', 'Classic, Novel'),
+      new Book(6, 'Really Good, Actually', 'Monicha Hessy', 'Fiction', 'Really good Book.png', 'Available', 'Fiction, Humor')
+    ];
+
+
+
+
+
+
+    // Render the catalog table from the books array
+    function renderCatalog(list) {
+      const tbody = document.querySelector('#catalogTable tbody');
+      tbody.innerHTML = ''; // clear
+      (list || books).forEach(book => {
+        const tr = document.createElement('tr');
+
+        const coverTd = document.createElement('td');
+        const img = document.createElement('img');
+        img.src = book.cover;
+        img.alt = book.title;
+        img.style.width = '60px';
+        img.className = 'img-thumbnail';
+        coverTd.appendChild(img);
+
+        const titleTd = document.createElement('td'); titleTd.textContent = book.title;
+        const authorTd = document.createElement('td'); authorTd.textContent = book.author;
+        const catTd = document.createElement('td'); catTd.textContent = book.category;
+        const statusTd = document.createElement('td'); statusTd.textContent = book.status;
+
+        const actionsTd = document.createElement('td');
+        const reserveBtn = document.createElement('button');
+        reserveBtn.className = 'btn btn-sm btn-outline-warning me-1';
+        reserveBtn.textContent = 'Reserve';
+        reserveBtn.onclick = () => alert('Reserved Done!: ' + book.title);
+
+        const detailsBtn = document.createElement('a');
+        detailsBtn.className = 'btn btn-sm btn-outline-light';
+        detailsBtn.textContent = 'Details';
+        detailsBtn.href = 'book-details.html?id=' + book.id; // This adds ?id=4 or ?id=2 etc. (the books IDs)
+        detailsBtn.onclick = () => {
+          localStorage.setItem("selectedBook", JSON.stringify(book));
+        };
+
+
+        
+
+
+        actionsTd.appendChild(reserveBtn);
+        actionsTd.appendChild(detailsBtn);
+
+        tr.appendChild(coverTd);
+        tr.appendChild(titleTd);
+        tr.appendChild(authorTd);
+        tr.appendChild(catTd);
+        tr.appendChild(statusTd);
+        tr.appendChild(actionsTd);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+
+
+    
+
+    // Add a book (from the form)
+    function addBook(event) {
+      event.preventDefault();    // Prevents the default form submission , so it prevent refreshing the page to Process form data with JavaScript
+      const title = document.getElementById('bookTitle').value.trim();
+      const author = document.getElementById('bookAuthor').value.trim();
+      const category = document.getElementById('bookCategory').value;
+      const cover = document.getElementById('bookCover').value.trim() || 'Book Cover.png';
+      if (!title || !author) return;
+      const id = books.length ? Math.max(...books.map(b => b.id)) + 1 : 1;
+      const newBook = new Book(id, title, author, category, cover, 'Available');
+      books.push(newBook);
+      renderCatalog();
+      document.getElementById('addBookForm').reset();
+    }
+
+    // Search helper - filters book array and re-renders
+    function searchBooks(event) {
+      // allow form to still submit to httpbin
+      if (event) {
+        event.preventDefault(); // prevent navigation for Add Book (demo)
+      }
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      if (!q) {
+        renderCatalog();
+        return;
+      }
+      const filtered = books.filter(b => b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q));
+      renderCatalog(filtered);
+    }
+
+
+
+
+    // If catalog.html was opened with ?search=...
+    function checkURLSearch() {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get("search");
+      if (q) {
+        document.getElementById("searchInput").value = q;
+        searchBooks();     
+      }
+    }
+
+
+
+
+
+    // show the result
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCatalog();   // create table for the book
+      checkURLSearch(); // auto-run search if ?search exists
+      document.getElementById('addBookForm').addEventListener('submit', addBook);
+      document.getElementById('searchForm').addEventListener('submit', searchBooks);
+    });
+
+
+
+  </script>
+  
+
+
+
+
+
+
+
+  <!-- javascript code to changing page mode dark/light -->
+  <script>
+  // ------------------------------
+  // THEME TOGGLE
+  // ------------------------------
+  document.addEventListener("DOMContentLoaded", function () {
+      
+      // 1. Load saved theme from localStorage
+      let savedTheme = localStorage.getItem("theme") || "dark";
+      document.body.setAttribute("data-bs-theme", savedTheme);
+
+      // 2. Find toggle button
+      const toggleBtn = document.getElementById("themeToggle");
+      if (!toggleBtn) return;
+
+      // 3. When user clicks toggle button
+      toggleBtn.addEventListener("click", function () {
+          let current = document.body.getAttribute("data-bs-theme");
+          let next = current === "dark" ? "light" : "dark";
+
+          // Apply theme
+          document.body.setAttribute("data-bs-theme", next);
+
+          // Save theme across pages
+          localStorage.setItem("theme", next);
+      });
+  });
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LMShelf | Calculate Fees</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body data-bs-theme="dark">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom">
+  <div class="container">
+    <a class="navbar-brand" href="index.html"><img src="LMShelf.svg" width="120" alt="logo" class="me-2">LMShelf</a>
+
+    <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="catalog.html">Catalog</a></li>
+            <li class="nav-item"><a class="nav-link" href="book-details.html">Book Details</a></li>
+            <li class="nav-item"><a class="nav-link" href="reports.html">Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="policies.html">Policies</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="account.html">My Account</a></li>
+        </ul>
+
+        <div class="ms-3">
+          <button id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button">🌓</button>
+        </div>
+      </div>
+
+  </div>
+</nav>
+
+<main class="container py-4">
+  <h2>Fee & Bill Calculator</h2>
+  <p class="text-info">Calculate overdue fines, replacement fees and discounts. This is a client-side demo.</p>
+
+  <form id="calcForm" class="row g-3">
+    <div class="col-md-4">
+      <label class="form-label">Member Age</label>
+      <input type="number" id="age" class="form-control bg-secondary text-light" value="22" min="0">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Is Premium Member?</label>
+      <select id="premium" class="form-select bg-secondary text-light">
+        <option value="no">No</option>
+        <option value="yes">Yes (10% discount)</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Number of Overdue Days</label>
+      <input type="number" id="daysLate" class="form-control bg-secondary text-light" value="0" min="0">
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Replacement Cost (if lost)</label>
+      <input type="number" id="replacement" class="form-control bg-secondary text-light" value="0" min="0" step="0.01">
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Number of Lost Items</label>
+      <input type="number" id="lostCount" class="form-control bg-secondary text-light" value="0" min="0">
+    </div>
+
+    <div class="col-12">
+      <button class="btn btn-warning" type="button" onclick="calculateBill()">Calculate</button>
+    </div>
+  </form>
+
+  <div id="calcResult" class="mt-4"></div>
+  <hr>
+
+  <h5>Rationale</h5>
+  <p class="text-info">This calculator helps librarians estimate fines and replacement charges. Overdue fee is applied per day; premium members receive a discount; seniors (age &gt;= 60) receive an additional discount.</p>
+</main>
+
+
+
+
+
+<!-- FOOTER -->
+  <footer class="bg-black text-muted py-4 border-top">
+    <div class="container">
+      <div class="row gy-3">
+        <div class="col-12 col-md-4">
+          <h6 class="text-warning">LMShelf Library</h6>
+          <p class="text-light small mb-0">Empowering readers through technology. Streamlining library management for everyone.</p>
+        </div>
+
+        <div class="col-6 col-md-4">
+          <h6 class="text-warning">Quick Links</h6>
+          <ul class="list-unstyled small">
+            <li><a class="link-info text-decoration-none" href="catalog.html">Catalog</a></li>
+            <li><a class="link-info text-decoration-none" href="reports.html">Reports</a></li>
+            <li><a class="link-info text-decoration-none" href="policies.html">Policies</a></li>
+          </ul>
+        </div>
+
+        <div class="col-6 col-md-4">
+          <h6 class="text-warning">Contact</h6>
+          <p class="text-light small mb-0">Email: <a class="link-info" href="mailto:library@lmshelf.edu">library@lmshelf.edu</a></p>
+        </div>
+      </div>
+      
+      <div class="text-center">
+        <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' });"  id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button">Back to Top</button> <!-- Simple js code to scroll to the top -->
+      </div>
+
+      <div class="text-light text-center small mt-3">© 2025 LMShelf. All rights reserved.</div>
+    </div>
+  </footer>
+
+
+
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/*
+ calculateBill() explanation:
+ - Inputs:
+   age: member's age
+   premium: whether member has premium status
+   daysLate: number of overdue days
+   replacement: cost to replace a single lost item
+   lostCount: how many lost items
+
+ - Fees/Rules (example policy):
+   * Overdue fee per day per book = $0.50
+   * If daysLate > 30, the book is considered lost and a replacement fee is charged for each overdue item
+   * Replacement fee per lost item is the provided replacement cost
+   * Premium members get 10% off the total bill
+   * Seniors (age >= 60) get additional 10% off (applied after premium discount)
+   * Apply logical checks and math operators; output breakdown
+
+ - Demonstrates arithmetic (+, -, *, /), relational (>=, >), and logical (&&, ||) operators
+*/
+
+function calculateBill() {
+  // read inputs
+  const age = parseInt(document.getElementById('age').value) || 0;
+  const premium = document.getElementById('premium').value === 'yes';
+  const daysLate = parseInt(document.getElementById('daysLate').value) || 0;
+  const replacement = parseFloat(document.getElementById('replacement').value) || 0.0;
+  const lostCount = parseInt(document.getElementById('lostCount').value) || 0;
+
+  // base rates
+  const overduePerDay = 0.5;
+
+  // calculate overdue total
+  const overdueTotal = daysLate * overduePerDay;
+
+  // determine if any items are considered lost because overdue > 30
+  const consideredLost = daysLate > 30;
+  // if consideredLost, we assume lostCount should at least be 1 (this is a simple illustrative policy)
+  const effectiveLostCount = consideredLost ? Math.max(1, lostCount) : lostCount;
+
+  // replacement charge
+  const replacementCharge = effectiveLostCount * replacement;
+
+  // subtotal
+  let subtotal = overdueTotal + replacementCharge;
+
+  // apply premium discount 10%
+  let discountPremium = 0;
+  if (premium) {
+    discountPremium = subtotal * 0.10;
+    subtotal -= discountPremium;
+  }
+
+  // senior discount 10% for age >= 60
+  let discountSenior = 0;
+  if (age >= 60) {
+    discountSenior = subtotal * 0.10;
+    subtotal -= discountSenior;
+  }
+
+  // final rounding
+  subtotal = Math.round(subtotal * 100) / 100;
+
+  // build output
+  const resultHtml = `
+    <div class="card bg-secondary text-light">
+      <div class="card-body">
+        <h5 class="card-title">Bill Summary</h5>
+        <p class="card-text">
+          Overdue charge: $${overdueTotal.toFixed(2)}<br>
+          Replacement charge: $${replacementCharge.toFixed(2)} (items: ${effectiveLostCount})<br>
+          Premium discount: $${discountPremium.toFixed(2)}<br>
+          Senior discount: $${discountSenior.toFixed(2)}<br>
+          <strong>Total Due: $${subtotal.toFixed(2)}</strong>
+        </p>
+      </div>
+    </div>
+  `;
+  document.getElementById('calcResult').innerHTML = resultHtml;
+}
+</script>
+
+
+
+
+
+
+
+
+  <!-- javascript code to changing page mode dark/light -->
+  <script>
+  // ------------------------------
+  // THEME TOGGLE 
+  // ------------------------------
+  document.addEventListener("DOMContentLoaded", function () {
+      
+      // 1. Load saved theme from localStorage
+      let savedTheme = localStorage.getItem("theme") || "dark";
+      document.body.setAttribute("data-bs-theme", savedTheme);
+
+      // 2. Find toggle button
+      const toggleBtn = document.getElementById("themeToggle");
+      if (!toggleBtn) return;
+
+      // 3. When user clicks toggle button
+      toggleBtn.addEventListener("click", function () {
+          let current = document.body.getAttribute("data-bs-theme");
+          let next = current === "dark" ? "light" : "dark";
+
+          // Apply theme
+          document.body.setAttribute("data-bs-theme", next);
+
+          // Save theme across pages
+          localStorage.setItem("theme", next);
+      });
+  });
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>
