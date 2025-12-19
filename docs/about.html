@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About – LMShelf</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="LMShelf.svg" type="image/svg+xml">
+</head>
+
+<body data-bs-theme="dark">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <img src="LMShelf.svg" alt="LMShelf logo" width="140" class="me-2">
+      <span class="fs-5">LMShelf</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="catalog.html">Catalog</a></li>
+            <li class="nav-item"><a class="nav-link" href="book-details.html">Book Details</a></li>
+            <li class="nav-item"><a class="nav-link" href="reports.html">Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="policies.html">Policies</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="account.html">My Account</a></li>
+        </ul>
+
+        <div class="ms-3">
+          <button id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button">🌓</button>
+        </div>
+      </div>
+
+  </div>
+</nav>
+
+<main class="container py-5">
+
+  <!-- HEADER -->
+  <header class="text-center mb-5">
+    <h1 class="display-6 fw-semibold text-warning">About LMShelf</h1>
+    <p class="text-muted">A modern platform built to support readers, students, and librarians.</p>
+  </header>
+
+  <!-- IMAGE + STORY -->
+  <section class="row mb-5 align-items-center">
+    <div class="col-md-6">
+      <img src="About us image 1.png" class="img-fluid rounded shadow" alt="library photo">
+    </div>
+    <div class="col-md-6">
+      <h2 class="h4 text-warning">Our Story</h2>
+      <p>
+        LMShelf was founded with a simple mission: to make library management faster, easier, 
+        and more accessible for everyone. With a growing number of library resources and 
+        an increasing need for digital organization, LMShelf serves as an efficient bridge 
+        between readers and collections.
+      </p>
+    </div>
+  </section>
+
+  <!-- GOALS WITH IMAGE -->
+  <section class="row mb-5 align-items-center">
+    <div class="col-md-6 order-md-2">
+      <img src="About us image 2 Goals.png" class="img-fluid rounded shadow" alt="goals image">
+    </div>
+    <div class="col-md-6 order-md-1">
+      <h2 class="h4 text-warning">Our Goals</h2>
+      <ul>
+        <li>Digitize all library operations seamlessly.</li>
+        <li>Allow students to search, reserve, and borrow books instantly.</li>
+        <li>Give librarians powerful reporting and catalog tools.</li>
+        <li>Reduce manual work through automation and clean UI.</li>
+        <li>Create a platform that grows with your library.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="mb-5">
+    <h2 class="h4 text-warning text-center mb-3">What LMShelf Services</h2>
+    <div class="row g-4 text-dark">
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5>Book Catalog</h5>
+            <p class="text-muted">Search through thousands of titles with lightning speed.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5>Loan & Reservation System</h5>
+            <p class="text-muted">Borrow, return, and reserve books online without hassle.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5>Librarian Dashboard</h5>
+            <p class="text-muted">Tools for reports, catalog editing, and user management.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-black text-muted py-4 border-top">
+  <div class="container">
+    <div class="row gy-3">
+      <div class="col-12 col-md-4">
+        <h6 class="text-warning">LMShelf Library</h6>
+        <p class="text-light small mb-0">Empowering readers through digital innovation.</p>
+      </div>
+
+      <div class="col-6 col-md-4">
+        <h6 class="text-warning">Quick Links</h6>
+        <ul class="list-unstyled small">
+          <li><a class="link-info text-decoration-none" href="catalog.html">Catalog</a></li>
+          <li><a class="link-info text-decoration-none" href="reports.html">Reports</a></li>
+          <li><a class="link-info text-decoration-none" href="policies.html">Policies</a></li>
+        </ul>
+      </div>
+
+      <div class="col-6 col-md-4">
+        <h6 class="text-warning">Contact</h6>
+        <p class="text-light small mb-0">
+          Email: <a class="link-info" href="mailto:library@lmshelf.edu">library@lmshelf.edu</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' });"  id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button">Back to Top</button> <!-- Simple js code to scroll to the top -->
+    </div>
+
+    <div class="text-light text-center small mt-3">© 2025 LMShelf. All rights reserved.</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+
+
+
+
+  <!-- javascript code to changing page mode dark/light -->
+  <script>
+  // ------------------------------
+  // THEME TOGGLE 
+  // ------------------------------
+  document.addEventListener("DOMContentLoaded", function () {
+      
+      // 1. Load saved theme from localStorage
+      let savedTheme = localStorage.getItem("theme") || "dark";
+      document.body.setAttribute("data-bs-theme", savedTheme);
+
+      // 2. Find toggle button
+      const toggleBtn = document.getElementById("themeToggle");
+      if (!toggleBtn) return;
+
+      // 3. When user clicks toggle button
+      toggleBtn.addEventListener("click", function () {
+          let current = document.body.getAttribute("data-bs-theme");
+          let next = current === "dark" ? "light" : "dark";
+
+          // Apply theme
+          document.body.setAttribute("data-bs-theme", next);
+
+          // Save theme across pages
+          localStorage.setItem("theme", next);
+      });
+  });
+  </script>
+
+
+
+
+
+
+
+
+</body>
+</html>

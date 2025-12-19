@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LMShelf Fun Page</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="icon" href="LMShelf.svg" type="image/svg+xml">
+</head>
+
+<body data-bs-theme="dark">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="LMShelf.svg" width="120" class="me-2">
+            <span class="fs-5">LMShelf</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="catalog.html">Catalog</a></li>
+            <li class="nav-item"><a class="nav-link" href="book-details.html">Book Details</a></li>
+            <li class="nav-item"><a class="nav-link" href="reports.html">Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="policies.html">Policies</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="account.html">My Account</a></li>
+        </ul>
+
+        <div class="ms-3">
+          <button id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button">🌓</button>
+        </div>
+      </div>
+
+
+    </div>
+</nav>
+
+
+<main class="container py-5">
+
+    <h1 class="text-center mb-4">📚 Library Puzzle — Assemble the Book Title!</h1>
+    <p class="text-center text-info mb-5">Click the words in the correct order to form the book title.</p>
+
+    <!-- Puzzle Area -->
+    <div class="row text-center">
+
+        <!-- Shuffled words (player clicks these) -->
+        <div class="col-12 mb-4">
+            <h4 class="text-warning">Available Words</h4>
+            <div id="wordBank" class="d-flex flex-wrap gap-2 justify-content-center mt-3"></div>
+        </div>
+
+        <!-- Player's assembled answer -->
+        <div class="col-12 mb-4">
+            <h4 class="text-warning">Your Answer</h4>
+            <div id="answerArea" class="d-flex flex-wrap gap-2 justify-content-center mt-3 p-3 border rounded"></div>
+        </div>
+
+        <div class="col-12 text-center">
+            <button id="checkBtn" class="btn btn-success btn-lg px-4">Check Answer</button>
+            <button id="resetBtn" class="btn btn-secondary btn-lg px-4 ms-2">Reset</button>
+        </div>
+
+        <p id="resultMsg" class="text-center mt-4 fs-4"></p>
+
+    </div>
+
+</main>
+
+
+
+
+<!-- FOOTER -->
+  <footer class="bg-black text-muted py-4 border-top">
+    <div class="container">
+      <div class="row gy-3">
+        <div class="col-12 col-md-4">
+          <h6 class="text-warning">LMShelf Library</h6>
+          <p class="text-light small mb-0">Empowering readers through technology. Streamlining library management for everyone.</p>
+        </div>
+
+        <div class="col-6 col-md-4">
+          <h6 class="text-warning">Quick Links</h6>
+          <ul class="list-unstyled small">
+            <li><a class="link-info text-decoration-none" href="catalog.html">Catalog</a></li>
+            <li><a class="link-info text-decoration-none" href="reports.html">Reports</a></li>
+            <li><a class="link-info text-decoration-none" href="policies.html">Policies</a></li>
+          </ul>
+        </div>
+
+        <div class="col-6 col-md-4">
+          <h6 class="text-warning">Contact</h6>
+          <p class="text-light small mb-0">Email: <a class="link-info" href="mailto:library@lmshelf.edu">library@lmshelf.edu</a></p>
+        </div>
+      </div>
+      
+        <div class="text-center">
+            <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' });"  id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button">Back to Top</button> <!-- Simple js code to scroll to the top -->
+        </div>
+
+      <div class="text-light text-center small mt-3">© 2025 LMShelf. All rights reserved.</div>
+    </div>
+  </footer>
+
+
+
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<!-- GAME SCRIPT -->
+<script>
+
+/* ----------------------------------------------
+   Library Puzzle Game — "Assemble the Book Title"
+   ----------------------------------------------
+   How it works:
+   - A book title is split into individual words.
+   - Those words are shuffled and shown as buttons.
+   - When the user clicks a word, it moves into
+     the "answer area".
+   - The user tries to form the correct title.
+   - When pressing “Check Answer”, the script
+     compares user order with the correct order.
+------------------------------------------------*/
+
+
+// 1. a book title related to the library system
+const correctTitle = ["The", "Great", "Gatsby"];
+
+// 2. Shuffle the words (simple random reorder)
+const shuffledWords = [...correctTitle].sort(() => Math.random() - 0.5);
+
+// 3. Select page elements
+const wordBank = document.getElementById("wordBank");
+const answerArea = document.getElementById("answerArea");
+const resultMsg = document.getElementById("resultMsg");
+const checkBtn = document.getElementById("checkBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+// 4. Create word buttons dynamically
+function loadWords() {
+    wordBank.innerHTML = "";
+    answerArea.innerHTML = "";
+    resultMsg.textContent = "";
+
+    shuffledWords.forEach(word => {
+        const btn = document.createElement("button");
+        btn.className = "btn btn-outline-warning btn-sm";
+        btn.textContent = word;
+
+        // When clicked → move word to answer area
+        btn.onclick = function() {
+            answerArea.appendChild(btn);
+        };
+
+        wordBank.appendChild(btn);
+    });
+}
+
+loadWords(); // Load puzzle on page open
+
+
+// 5. Check Answer Button
+checkBtn.onclick = function () {
+    // Extract the textContent of each word the user selected
+    const userWords = Array.from(answerArea.children).map(btn => btn.textContent);
+
+    // Compare with the correct title
+    if (userWords.join(" ") === correctTitle.join(" ")) {
+        resultMsg.textContent = "🎉 Correct! Great job!";
+        resultMsg.className = "text-success fs-4";
+    } else {
+        resultMsg.textContent = "❌ Incorrect — try again!";
+        resultMsg.className = "text-danger fs-4";
+    }
+};
+
+
+// 6. Reset Game Button
+resetBtn.onclick = function () {
+    loadWords(); // Reload everything
+};
+
+</script>
+
+
+
+
+
+
+
+
+  <!-- javascript code to changing page mode dark/light -->
+  <script>
+  // ------------------------------
+  // THEME TOGGLE 
+  // ------------------------------
+  document.addEventListener("DOMContentLoaded", function () {
+      
+      // 1. Load saved theme from localStorage
+      let savedTheme = localStorage.getItem("theme") || "dark";
+      document.body.setAttribute("data-bs-theme", savedTheme);
+
+      // 2. Find toggle button
+      const toggleBtn = document.getElementById("themeToggle");
+      if (!toggleBtn) return;
+
+      // 3. When user clicks toggle button
+      toggleBtn.addEventListener("click", function () {
+          let current = document.body.getAttribute("data-bs-theme");
+          let next = current === "dark" ? "light" : "dark";
+
+          // Apply theme
+          document.body.setAttribute("data-bs-theme", next);
+
+          // Save theme across pages
+          localStorage.setItem("theme", next);
+      });
+  });
+  </script>
+
+
+
+
+
+
+</body>
+</html>

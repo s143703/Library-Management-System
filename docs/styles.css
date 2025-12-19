@@ -1,0 +1,218 @@
+/* Universal Selector */
+* {
+    margin: 0;
+    padding: 0;
+    
+}
+
+/* Simple Selector: body */
+body {
+    background-color: #1A1A1A;         /* Background color of pages */
+    color: #E0E0E0;
+    font-family: Arial, sans-serif;  
+}
+
+/* Header container */
+.main-header {
+    display: flex;                 /* layout category */
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background-color: #121212;     
+    border-bottom: 2px solid #2A2A2A;              
+}
+
+
+
+
+
+/* Contextual selector: navigation -> a */
+.top-menu {
+    margin-right: 15%
+}
+
+.top-menu a {
+    color: #E0E0E0;
+    margin: 15px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 101%;
+    padding: 6px 3px;
+    transition: 0.2s ease;
+}
+
+
+
+
+/* Logo styling */
+.logo {
+    width: 350px;
+    height: auto;
+
+}
+
+
+
+/* Pseudo classes */
+.top-menu a:hover {
+    color: skyblue;
+    border-bottom: 2px solid #A8DADC;
+}
+
+
+.top-menu a:active {
+    color: #F4A261;
+}
+
+
+
+/* ID-linked selector */
+#themeToggle {
+    background-color: transparent;
+    border: 1px solid #444;
+    border-radius: 8px;
+    font-size: 1.2em;
+    padding: 5px 10px;
+    color: #E0E0E0;
+}
+
+#themeToggle:hover {
+    background-color: #333;
+}
+
+
+
+
+/* Search section */
+.search-section {
+    padding: 25px;
+    text-align: center;
+
+}
+
+/* Search bar */
+.search-bar {
+    width: 45%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #444;
+    font-size: 1em;
+    background-color: #262626;
+    color: #E0E0E0;
+}
+
+.search-bar:hover {
+    border-color: #A8DADC;
+}
+
+.search-bar:focus {
+    border-color: #F4A261;
+    outline: none;
+}
+
+
+
+
+/* Generic selector */
+button {
+    font-family: inherit;
+    color: #E0E0E0;
+    text-align: center;
+    border: 2px solid #444;
+    background-color: #262626;
+    width: 70px;
+    border-radius: 10px;
+    cursor: pointer;
+
+}
+
+
+
+button:focus {
+    border-color: #F4A261;
+}
+
+button:hover {
+    border-color: #A8DADC;
+    background-color: #1A1A1A;
+}
+
+
+
+
+
+
+
+
+/* === FOOTER DESIGN === */
+footer {
+    background-color: #121212;        
+    color: #E0E0E0;                  
+    text-align: center;               
+    padding: 2px;                     
+    border-top: 2px solid #2A2A2A;   
+    margin-top: 50px;
+}
+
+
+.footer-container {
+    display: flex;                       /* layout/display */
+    justify-content: space-around;
+    align-items: center;
+    padding: 25px;
+}
+
+
+.footer-section {
+    flex: 1 1 250px;
+    margin: 15px;
+}
+
+
+.footer-section h4 {
+    color: #A8DADC;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+
+.footer-section a {
+    display: block;
+    color: #E0E0E0;
+    text-decoration: none;
+    margin: 5px 0;
+    transition: 0.3s;
+}
+
+.footer-section a:hover {
+    color: skyblue;
+}
+
+
+.footer-section a:active {
+    color: #F4A261;
+}
+
+
+
+footer p {
+    font-size: 0.9em;
+    color: #999;
+    margin-top: 15px;
+}
+
+
+#backToTop {
+    margin-top: 15px;
+    background-color: transparent;
+    border: 1px solid #444;
+    border-radius: 8px;
+    color: #E0E0E0;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+
+#backToTop:hover {
+    background-color: #333;
+}

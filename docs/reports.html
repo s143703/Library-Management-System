@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LMShelf | Reports</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body data-bs-theme="dark">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="LMShelf.svg" alt="logo" width="120" class="me-2">LMShelf
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav3">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="catalog.html">Catalog</a></li>
+            <li class="nav-item"><a class="nav-link" href="book-details.html">Book Details</a></li>
+            <li class="nav-item"><a class="nav-link" href="policies.html">Policies</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="account.html">My Account</a></li>
+        </ul>
+
+        <div class="ms-3">
+          <button id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button">🌓</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4">
+    <h2>Reports</h2>
+    <p class="text-info">Generate simple reports from loan data (client-side demo).</p>
+
+    <form id="reportForm" class="row g-2 mb-3" onsubmit="generateReport(event)">
+      <div class="col-md-3">
+        <label class="form-label">Borrower</label>
+        <input id="rBorrower" class="form-control bg-secondary text-light" placeholder="Borrower name">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Book Title</label>
+        <input id="rTitle" class="form-control bg-secondary text-light" placeholder="Book title">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">From</label>
+        <input id="rStart" type="date" class="form-control bg-secondary text-light">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">To</label>
+        <input id="rEnd" type="date" class="form-control bg-secondary text-light">
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button class="btn btn-warning w-100" type="submit">Generate</button>
+      </div>
+    </form>
+
+    <div class="table-responsive">
+      <table id="loansTable" class="table table-dark table-striped align-middle">
+        <thead>
+          <tr>
+            <th>Borrower</th>
+            <th>Book Title</th>
+            <th>Checkout</th>
+            <th>Due</th>
+            <th>Status</th>
+            <th>Days Late</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-black text-muted py-4 border-top">
+    <div class="container">
+      <div class="row gy-3">
+        <div class="col-12 col-md-4">
+          <h6 class="text-warning">LMShelf Library</h6>
+          <p class="text-light small mb-0">Empowering readers through technology. Streamlining library management for everyone.</p>
+        </div>
+
+        <div class="col-6 col-md-4">
+          <h6 class="text-warning">Quick Links</h6>
+          <ul class="list-unstyled small">
+            <li><a class="link-info text-decoration-none" href="catalog.html">Catalog</a></li>
+            <li><a class="link-info text-decoration-none" href="reports.html">Reports</a></li>
+            <li><a class="link-info text-decoration-none" href="policies.html">Policies</a></li>
+          </ul>
+        </div>
+
+        <div class="col-6 col-md-4">
+          <h6 class="text-warning">Contact</h6>
+          <p class="text-light small mb-0">Email: <a class="link-info" href="mailto:library@lmshelf.edu">library@lmshelf.edu</a></p>
+        </div>
+      </div>
+      
+      <div class="text-center">
+        <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' });"  id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button">Back to Top</button> <!-- Simple js code to scroll to the top -->
+      </div>
+
+      <div class="text-light text-center small mt-3">© 2025 LMShelf. All rights reserved.</div>
+    </div>
+  </footer>
+
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    /**
+     * Loan constructor
+     * @param {number} id
+     * @param {string} borrower
+     * @param {string} title
+     * @param {string} checkout - ISO date string
+     * @param {string} due - ISO date string
+     * @param {string} status - active/returned/overdue
+     */
+    function Loan(id, borrower, title, checkout, due, status) {
+      this.id = id;
+      this.borrower = borrower;
+      this.title = title;
+      this.checkout = checkout;
+      this.due = due;
+      this.status = status || 'active';
+    }
+
+    // sample loans
+    let loans = [
+      new Loan(1, 'Student 1234', 'Introduction to Algorithms', '2025-10-20', '2025-11-05', 'active'),
+      new Loan(2, 'Student 5678', 'Modern Web Design', '2025-10-15', '2025-11-01', 'overdue')
+    ];
+
+    // render function
+    function renderLoans(list) {
+      const tbody = document.querySelector('#loansTable tbody'); // this function finds HTML Elements by CSS Selectors
+      tbody.innerHTML = '';
+      (list || loans).forEach(ln => {
+        const tr = document.createElement('tr');
+        const daysLate = calculateDaysLate(ln.due);
+        tr.innerHTML = `
+          <td>${ln.borrower}</td>
+          <td>${ln.title}</td>
+          <td>${ln.checkout}</td>
+          <td>${ln.due}</td>
+          <td>${ln.status}</td>
+          <td>${daysLate > 0 ? daysLate : 0}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // calculate days late
+    function calculateDaysLate(due) {
+      const dueDate = new Date(due);
+      const now = new Date();
+      const diff = Math.floor((now - dueDate) / (1000 * 60 * 60 * 24));
+      return diff > 0 ? diff : 0;
+    }
+
+    // generate report: filter loans array and render
+    function generateReport(event) {
+      event.preventDefault();          // Prevents the default form submission , so it prevent refreshing the page to Process form data with JavaScript
+      const borrower = document.getElementById('rBorrower').value.trim().toLowerCase();
+      const title = document.getElementById('rTitle').value.trim().toLowerCase();
+      const start = document.getElementById('rStart').value;
+      const end = document.getElementById('rEnd').value;
+
+      let filtered = loans.filter(l => {
+        let ok = true;
+        if (borrower) ok = ok && l.borrower.toLowerCase().includes(borrower);
+        if (title) ok = ok && l.title.toLowerCase().includes(title);
+        if (start) ok = ok && (new Date(l.checkout) >= new Date(start));
+        if (end) ok = ok && (new Date(l.checkout) <= new Date(end));
+        return ok;
+      });
+
+      renderLoans(filtered);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderLoans();
+      document.getElementById('reportForm').addEventListener('submit', generateReport); // an Event Handler to the form when clicking submit it executes the generateReport(event) function
+    });
+  </script>
+  
+
+
+
+
+
+
+
+  <!-- javascript code to changing page mode dark/light -->
+  <script>
+  // ------------------------------
+  // THEME TOGGLE 
+  // ------------------------------
+  document.addEventListener("DOMContentLoaded", function () {
+      
+      // 1. Load saved theme from localStorage
+      let savedTheme = localStorage.getItem("theme") || "dark";
+      document.body.setAttribute("data-bs-theme", savedTheme);
+
+      // 2. Find toggle button
+      const toggleBtn = document.getElementById("themeToggle");
+      if (!toggleBtn) return;
+
+      // 3. When user clicks toggle button
+      toggleBtn.addEventListener("click", function () {
+          let current = document.body.getAttribute("data-bs-theme");
+          let next = current === "dark" ? "light" : "dark";
+
+          // Apply theme
+          document.body.setAttribute("data-bs-theme", next);
+
+          // Save theme across pages
+          localStorage.setItem("theme", next);
+      });
+  });
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>
